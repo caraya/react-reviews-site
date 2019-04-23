@@ -1,26 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import 'foundation-sites/dist/css/foundation.min.css'
+
+import CreateReview from "./components/create-review";
+import EditReview from "./components/edit-review";
+import ReviewsList from "./components/reviews-list";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <div className="top-bar foundation-5-top-bar">
+          <div className="top-bar-title">
+            <Link to="/"><strong>Items to review</strong></Link>
+          </div>
+          <div className="right">
+            <Link to="/create">Create Review</Link>
+          </div>
+        </div>
+
+        <Route path="/" exact component={ReviewsList} />
+        <Route path="/edit/:id" component={EditReview} />
+        <Route path="/create" component={CreateReview} />
+      </Router>
     );
   }
 }
