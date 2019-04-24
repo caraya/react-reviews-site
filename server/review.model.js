@@ -19,9 +19,9 @@ let Review = new Schema({
     review_sugested_by: {
       type: String
     },
-    review_sugested_date: {
-      type: Date
-    }
+    // review_sugested_date: {
+    //   type: Date
+    // }
 });
 
 module.exports = mongoose.model('Review', Review);

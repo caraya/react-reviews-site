@@ -10,8 +10,7 @@ export default class CreateReview extends Component {
       review_url: '',
       review_type: '',
       review_description: '',
-      review_sugested_by: '',
-      review_sugested_date: ''
+      review_sugested_by: ''
     }
 
     this.onChangeReviewTitle = this.onChangeReviewTitle.bind(this);
@@ -19,7 +18,6 @@ export default class CreateReview extends Component {
     this.onChangeReviewType = this.onChangeReviewType.bind(this);
     this.onChangeReviewDescription = this.onChangeReviewDescription.bind(this);
     this.onChangeReviewSugestedBy = this.onChangeReviewSugestedBy.bind(this);
-    this.onChangeReviewSugestedDate = this.onChangeReviewSugestedDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -53,28 +51,22 @@ export default class CreateReview extends Component {
     });
   }
 
-  onChangeReviewSugestedDate(e) {
-    this.setState({
-      review_sugested_date: e.target.value.toStringLocale()
-    });
-  }
-
   onSubmit(e) {
+    e.preventDefault();
+
     console.log(`Form submitted:`);
     console.log(`Review Title: ${this.state.review_title}`);
     console.log(`Review URL: ${this.state.review_url}`);
     console.log(`Type: ${this.state.review_type}`);
     console.log(`Review Description: ${this.state.review_description}`);
     console.log(`sugested by: ${this.state.review_sugested_by}`);
-    console.log(`sugested on: ${this.state.review_sugested_date}`);
 
     const newReview = {
       review_title: this.state.review_title,
       review_url: this.state.review_url,
-      review_type: this.state.review_url,
+      review_type: this.state.review_type,
       review_description: this.state.review_description,
       review_sugested_by: this.state.review_sugested_by,
-      review_sugested_date: this.state.review_sugested_date
     };
 
     axios.post('http://localhost:3010/reviews/add', newReview)
@@ -86,11 +78,9 @@ export default class CreateReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: '',
-      review_sugested_date: ''
     })
 
-    e.preventDefault();
-
+    this.props.history.push('/');
   }
 
 
@@ -137,21 +127,12 @@ export default class CreateReview extends Component {
                 </label>
               </div>
 
-              <div className='medium-6 cell'>
-                <label>sugested By
+              <div className='medium-12 cell'>
+                <label>Sugested By</label>
                   <input  type="text"
                           placeholder="sugested by"
                           defaultValue={this.state.review_sugested_by}
                           onChange={this.onChangeReviewSugestedBy}/>
-                </label>
-              </div>
-              <div className='medium-6 cell'>
-                <label>sugested on
-                  <input  type="date"
-                          placeholder="sugested on"
-                          defaultValue={this.state.review_sugested_date}
-                          onChange={this.onChangeReviewSugestedDate}/>
-                </label>
               </div>
             </div>
             <input  type='submit'

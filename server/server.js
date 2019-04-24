@@ -22,11 +22,11 @@ connection.once('open', function() {
 })
 
 reviewRoutes.route('/').get(function(req, res) {
-    Review.find(function(err, reviews) {
+    Review.find((err, reviews) => {
         if (err) {
             console.log(err);
         } else {
-            res.json(reviews);
+            return res.json(reviews);
         }
     });
 });
@@ -40,22 +40,22 @@ reviewRoutes.route('/:id').get(function(req, res) {
 
 reviewRoutes.route('/update/:id').post(function(req, res) {
     Review.findById(req.params.id, function(err, review) {
-        if (!review)
+        if (!review) {
             res.status(404).send("data not found");
-        else
+        } else {
           review.review_title = req.body.review_title;
           review.review_url = req.body.review_url;
           review.review_type = req.body.review_type;
           review.review_description = req.body.review_description;
           review.review_sugested_by = req.body.review_sugested_by;
-          review.review_sugested_date = req.body.review_sugested_date;
 
-          review.save().then(review => {
+         review.save().then(review => {
               res.json('Review updated!');
           })
           .catch(err => {
               res.status(400).send("Update not possible");
           });
+        }
     });
 });
 
