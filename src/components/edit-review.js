@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-// import DatePicker from "react-datepicker";
-
-// import "react-datepicker/dist/react-datepicker.css";
-
 import axios from 'axios';
 
 export default class EditReview extends Component {
@@ -15,7 +11,6 @@ export default class EditReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: '',
-      // review_sugested_date: ''
     }
 
     this.onChangeReviewTitle = this.onChangeReviewTitle.bind(this);
@@ -23,7 +18,6 @@ export default class EditReview extends Component {
     this.onChangeReviewType = this.onChangeReviewType.bind(this);
     this.onChangeReviewDescription = this.onChangeReviewDescription.bind(this);
     this.onChangeReviewSugestedBy = this.onChangeReviewSugestedBy.bind(this);
-    // this.onChangeReviewSugestedDate = this.onChangeReviewSugestedDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -47,10 +41,6 @@ export default class EditReview extends Component {
     this.setState({review_sugested_by: e.target.value});
   }
 
-  // onChangeReviewSugestedDate(e) {
-  //   this.setState({review_sugested_date: e.target.value});
-  // }
-
   onSubmit(e) {
     e.preventDefault();
 
@@ -60,7 +50,6 @@ export default class EditReview extends Component {
     console.log(`Type: ${this.state.review_type}`);
     console.log(`Review Description: ${this.state.review_description}`);
     console.log(`sugested by: ${this.state.review_sugested_by}`);
-    // console.log(`sugested on: ${this.state.review_sugested_date}`);
 
     const newReview = {
       review_title: this.state.review_title,
@@ -68,27 +57,25 @@ export default class EditReview extends Component {
       review_type: this.state.review_url,
       review_description: this.state.review_description,
       review_sugested_by: this.state.review_sugested_by,
-      // review_sugested_date: this.state.review_sugested_date
     };
 
-    axios.post('http://localhost:3010/reviews/update/' + +this.props.match.params.id, newReview)
-        .then(res => console.log(res.data));
+    axios.post('http://localhost:3010/reviews/update/' +this.props.match.params.id, newReview)
+      .then(res => console.log(res.data));
 
-    this.setState({
-      review_title: '',
-      review_url: '',
-      review_type: '',
-      review_description: '',
-      review_sugested_by: '',
-      // review_sugested_date: ''
-    })
+      this.setState({
+        review_title: '',
+        review_url: '',
+        review_type: '',
+        review_description: '',
+        review_sugested_by: '',
+      })
 
-    this.props.history.push('/');
+      this.props.history.push('/');
   }
 
 
   componentDidMount() {
-    axios.get('http://localhost:3010/reviews/'+this.props.match.params.id)
+    axios.get('http://localhost:3010/reviews/' + this.props.match.params.id)
     .then(response => {
       this.setState({
         review_title: response.data.review_title,
@@ -96,7 +83,6 @@ export default class EditReview extends Component {
         review_type: response.data.review_url,
         review_description: response.data.review_description,
         review_sugested_by: response.data.review_sugested_by,
-        // review_sugested_date: response.data.review_sugested_date
       });
     })
     .catch(function (error){
@@ -108,7 +94,7 @@ export default class EditReview extends Component {
     return (
       <div>
         <form onSubmit={this.onSubmit}>
-        <h2>Add Item to Review</h2>
+        <h2>Edit Review Item</h2>
           <div className='grid-container'>
             <div className='grid-x grid-padding-x'>
               <div className='medium-6 cell'>
@@ -146,11 +132,19 @@ export default class EditReview extends Component {
                 </label>
               </div>
 
+              <div className='medium-12 cell'>
+                <label>Sugested By</label>
+                  <input  type="text"
+                          placeholder="sugested by"
+                          defaultValue={this.state.review_sugested_by}
+                          onChange={this.onChangeReviewSugestedBy}/>
+              </div>
+
             </div>
 
             <input  type = 'submit'
                     className = 'button'
-                    value = 'Create Item to Review'
+                    value = 'Edit Review Item'
                     onClick={this.onSubmit}/>
           </div>
         </form>

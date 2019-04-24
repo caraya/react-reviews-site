@@ -1,8 +1,4 @@
 import React, {Component} from 'react';
-// import DatePicker from "react-datepicker";
-
-// import "react-datepicker/dist/react-datepicker.css";
-
 import axios from 'axios';
 
 export default class CreateReview extends Component {
@@ -15,7 +11,6 @@ export default class CreateReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: ''
-      // review_sugested_date: ''
     }
 
     this.onChangeReviewTitle = this.onChangeReviewTitle.bind(this);
@@ -23,7 +18,6 @@ export default class CreateReview extends Component {
     this.onChangeReviewType = this.onChangeReviewType.bind(this);
     this.onChangeReviewDescription = this.onChangeReviewDescription.bind(this);
     this.onChangeReviewSugestedBy = this.onChangeReviewSugestedBy.bind(this);
-    // this.onChangeReviewSugestedDate = this.onChangeReviewSugestedDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -57,28 +51,22 @@ export default class CreateReview extends Component {
     });
   }
 
-  onChangeReviewSugestedDate(e) {
-    this.setState({
-      review_sugested_date: e.target.value
-    });
-  }
-
   onSubmit(e) {
+    e.preventDefault();
+
     console.log(`Form submitted:`);
     console.log(`Review Title: ${this.state.review_title}`);
     console.log(`Review URL: ${this.state.review_url}`);
     console.log(`Type: ${this.state.review_type}`);
     console.log(`Review Description: ${this.state.review_description}`);
     console.log(`sugested by: ${this.state.review_sugested_by}`);
-    // console.log(`sugested on: ${this.state.review_sugested_date}`);
 
     const newReview = {
       review_title: this.state.review_title,
       review_url: this.state.review_url,
-      review_type: this.state.review_url,
+      review_type: this.state.review_type,
       review_description: this.state.review_description,
       review_sugested_by: this.state.review_sugested_by,
-      // review_sugested_date: this.state.review_sugested_date
     };
 
     axios.post('http://localhost:3010/reviews/add', newReview)
@@ -90,11 +78,9 @@ export default class CreateReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: '',
-      // review_sugested_date: ''
     })
 
-    e.preventDefault();
-
+    this.props.history.push('/');
   }
 
 

@@ -10,7 +10,7 @@ const Review = props => (
 
       <p>Type of content: {props.review.review_type}</p>
 
-      <p>Suggested by: {props.review.review_suggested_by} on {props.review.review_suggested_by}</p>
+      <p>Sugested by: {props.review.review_sugested_by}</p>
 
       <p>Why should we review this item as a community:</p>
       <section className="description">{props.review.review_description}</section>
