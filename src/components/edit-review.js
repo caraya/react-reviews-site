@@ -1,4 +1,8 @@
 import React, {Component} from 'react';
+// import DatePicker from "react-datepicker";
+
+// import "react-datepicker/dist/react-datepicker.css";
+
 import axios from 'axios';
 
 export default class EditReview extends Component {
@@ -11,7 +15,7 @@ export default class EditReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: '',
-      review_sugested_date: ''
+      // review_sugested_date: ''
     }
 
     this.onChangeReviewTitle = this.onChangeReviewTitle.bind(this);
@@ -19,7 +23,7 @@ export default class EditReview extends Component {
     this.onChangeReviewType = this.onChangeReviewType.bind(this);
     this.onChangeReviewDescription = this.onChangeReviewDescription.bind(this);
     this.onChangeReviewSugestedBy = this.onChangeReviewSugestedBy.bind(this);
-    this.onChangeReviewSugestedDate = this.onChangeReviewSugestedDate.bind(this);
+    // this.onChangeReviewSugestedDate = this.onChangeReviewSugestedDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -43,18 +47,20 @@ export default class EditReview extends Component {
     this.setState({review_sugested_by: e.target.value});
   }
 
-  onChangeReviewSugestedDate(e) {
-    this.setState({review_sugested_date: e.target.value});
-  }
+  // onChangeReviewSugestedDate(e) {
+  //   this.setState({review_sugested_date: e.target.value});
+  // }
 
   onSubmit(e) {
+    e.preventDefault();
+
     console.log(`Form submitted:`);
     console.log(`Review Title: ${this.state.review_title}`);
     console.log(`Review URL: ${this.state.review_url}`);
     console.log(`Type: ${this.state.review_type}`);
     console.log(`Review Description: ${this.state.review_description}`);
     console.log(`sugested by: ${this.state.review_sugested_by}`);
-    console.log(`sugested on: ${this.state.review_sugested_date}`);
+    // console.log(`sugested on: ${this.state.review_sugested_date}`);
 
     const newReview = {
       review_title: this.state.review_title,
@@ -62,10 +68,10 @@ export default class EditReview extends Component {
       review_type: this.state.review_url,
       review_description: this.state.review_description,
       review_sugested_by: this.state.review_sugested_by,
-      review_sugested_date: this.state.review_sugested_date
+      // review_sugested_date: this.state.review_sugested_date
     };
 
-    axios.post('http://localhost:3010/reviews/update' + +this.props.match.params.id, newReview)
+    axios.post('http://localhost:3010/reviews/update/' + +this.props.match.params.id, newReview)
         .then(res => console.log(res.data));
 
     this.setState({
@@ -74,20 +80,12 @@ export default class EditReview extends Component {
       review_type: '',
       review_description: '',
       review_sugested_by: '',
-      review_sugested_date: ''
+      // review_sugested_date: ''
     })
 
-    e.preventDefault();
+    this.props.history.push('/');
   }
 
-  parsedDate(input) {
-    const date = Date.parse(input);
-    const result = (
-      (date.getMonth().toString().length > 1) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '/' +
-      ((date.getDate().toString().length > 1) ? date.getDate() : ('0' + date.getDate())) + '/' +
-      date.getFullYear();
-    return result;
-  }
 
   componentDidMount() {
     axios.get('http://localhost:3010/reviews/'+this.props.match.params.id)
@@ -98,7 +96,7 @@ export default class EditReview extends Component {
         review_type: response.data.review_url,
         review_description: response.data.review_description,
         review_sugested_by: response.data.review_sugested_by,
-        review_sugested_date: response.data.review_sugested_date
+        // review_sugested_date: response.data.review_sugested_date
       });
     })
     .catch(function (error){
@@ -148,22 +146,6 @@ export default class EditReview extends Component {
                 </label>
               </div>
 
-              <div className='medium-6 cell'>
-                <label>sugested By
-                  <input  type="text"
-                          placeholder="sugested by"
-                          defaultValue={this.state.review_sugested_by}
-                          onChange={this.onChangeReviewSugestedBy}/>
-                </label>
-              </div>
-
-              <div className = 'medium-6 cell'>
-                <label>sugested on <input   type = 'date'
-                                            placeholder = 'sugested on'
-                                            defaultValue = {this.state.review_sugested_date}
-                                            onChange = {this.onChangeReviewSugestedDate} />
-                </label >
-              </div>
             </div>
 
             <input  type = 'submit'

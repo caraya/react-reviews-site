@@ -1,0 +1,7 @@
+              <div className = 'medium-6 cell'>
+                <label>Sugested on</label>
+                  <DatePicker   placeholderText="Click to select a date"
+                                selected={this.state.review_sugested_date}
+                                onChange={this.onChangeReviewSugestedDate} />
+
+              </div>

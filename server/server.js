@@ -22,11 +22,11 @@ connection.once('open', function() {
 })
 
 reviewRoutes.route('/').get(function(req, res) {
-    Review.find(function(err, reviews) {
+    Review.find((err, reviews) => {
         if (err) {
             console.log(err);
         } else {
-            res.json(reviews);
+            return res.json(reviews);
         }
     });
 });
@@ -48,7 +48,7 @@ reviewRoutes.route('/update/:id').post(function(req, res) {
           review.review_type = req.body.review_type;
           review.review_description = req.body.review_description;
           review.review_sugested_by = req.body.review_sugested_by;
-          review.review_sugested_date = req.body.review_sugested_date;
+          // review.review_sugested_date = req.body.review_sugested_date;
 
           review.save().then(review => {
               res.json('Review updated!');
